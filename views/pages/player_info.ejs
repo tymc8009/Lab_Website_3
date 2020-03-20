@@ -8,9 +8,9 @@
 				<!-- TODO: Modify the ejs code below, to conditionally set the image_src to be from our chosen player -->
 				  <% 
 				  var image_src = '';
-				  console.log(sp_player_info.img_src);
-				  if (sp_player_info){
-					  sp_player_info.forEach(function(player){
+				  console.log(p_info.img_src);
+				  if (p_info){
+					  p_info.forEach(function(player){
 					  image_src += player.img_src;
 					  });
 				  }
@@ -61,8 +61,8 @@
 							if(game_count){
 								game_count.forEach(function(player){num_games=player.count}); 
 							}
-							if(sp_player_info){
-								sp_player_info.forEach(function(player){
+							if(p_info){
+								p_info.forEach(function(player){
 									console.log("receive:",player. receiving_yards);
 									Year += player.year;
 									major += player.major;
