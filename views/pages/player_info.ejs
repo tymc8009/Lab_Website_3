@@ -7,7 +7,14 @@
 				<div class="card">
 				<!-- TODO: Modify the ejs code below, to conditionally set the image_src to be from our chosen player -->
 				  <% 
-				  var image_src = '../resources/img/helmet.jpg';
+				  var image_src = '';
+				  console.log(sp_player_info.img_src);
+				  if (sp_player_info){
+					  sp_player_info.forEach(function(player){
+					  image_src += player.img_src;
+					  });
+				  }
+				  else image_src += '../resources/img/helmet.jpg';
 				  
 				  %>
 				 <img class="card-img-top" id="player_img" src= "<%- image_src %>" alt="Image of Football Player">
@@ -17,7 +24,15 @@
 							 <option selected>Select Player</option>
 							 <!-- TODO: Populate our select with player options
 							 			For each player, set a new option with a value matching the palyer's id, 
-							 			but will display the player's name-->
+										 but will display the player's name-->
+							<%
+								if (players) {
+									var  options = '';
+									players.forEach(function(player){
+										options += '<option value = " ' +player.id + ' ">' + player.name + '</option>';
+									}); %>
+									<%- options %>
+								<% } %>
 						</select>
 					</form>
 				  </div>
@@ -30,28 +45,61 @@
 							<!-- TODO: Set Player Information
 							 			If a player has been selected, fill in their information in each of the fields below.
 							 		    You'll need to calculate here the player's average rushing, receiving, and passing yards.-->
-							<th>Year</th>
-							<td>	</td>
+							<% 
+							var receiving;
+							var avg_receiving;
+							var Year;
+							var major;
+							var passing;
+							var gamesPlayed;
+							var avg_pass;
+							var running;
+							var avg_running;
+							receiving = avg_receiving = Year = major = passing  = gamesPlayed = avg_pass = running = avg_running = '';
+							
+							var num_games = 1;
+							if(game_count){
+								game_count.forEach(function(player){num_games=player.count}); 
+							}
+							if(sp_player_info){
+								sp_player_info.forEach(function(player){
+									console.log("receive:",player. receiving_yards);
+									Year += player.year;
+									major += player.major;
+									passing += player.passing_yards;
+									running += player.rushing_yards;
+									receiving += player.receiving_yards;
+									if(num_games){
+										gamesPlayed += num_games;
+										avg_pass += Math.round(player.passing_yards/num_games);
+										avg_running += Math.round(player.rushing_yards/num_games);
+										avg_receiving += Math.round(player.receiving_yards/num_games);
+									}
+									});								
+							}
+							%>
+			     			 <th>Year</th>
+								<td><%-Year%></td>
 						</tr>
 						<tr>
 							<th>Major</th>
-							<td>	</td>
+								<td><%-major%>	</td>
 						</tr>
 						<tr>
 							<th>Games Played</th>
-							<td>	</td>
+								<td><%-gamesPlayed %>	</td>
 						</tr>
 						<tr>
-							<td>Passing Yards: </td>
-							<td>Avg. Passing Yards: </td>
+							<td>Passing Yards: <%-passing%></td>
+								<td>Avg. Passing Yards: <%-avg_pass%> </td>
 						</tr>
 						<tr>
-							<td>Rushing Yards: </td>
-							<td>Avg. Rushing Yards: </td>
+							<td>Rushing Yards: <%-running%></td>
+							<td>Avg. Rushing Yards: <%-avg_running%> </td>
 						</tr>
 						<tr>
-							<td>Receiving Yards: </td>
-							<td>Avg. Receiving Yards: </td>
+							<td>Receiving Yards: <%-receiving%></td>
+							<td>Avg. Receiving Yards:<%-avg_receiving%> </td>
 						</tr>
 					</table>
 				</div>
